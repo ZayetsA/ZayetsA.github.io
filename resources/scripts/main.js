@@ -51,11 +51,7 @@ class GameScene extends Phaser.Scene {
         const width = this.scale.gameSize.width;
         const height = this.scale.gameSize.height;
 
-        const bg = this.add.image(0, 0, 'clouds').setOrigin(0.5, 0.5);
-        const scaleX = width / bg.width;
-        const scaleY = height / bg.height;
-        const scale = Math.max(scaleX, scaleY);
-        bg.setScale(scale).setPosition(width / 2, height / 2);
+        this.add.image(0, 0, 'bg').setOrigin(0, 0);
 
 
         this.parent = new Phaser.Structs.Size(width, height);
