@@ -81,7 +81,8 @@ class GameScene extends Phaser.Scene {
 
         //  Here we create the ground.
         //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
-        this.platforms.create(320, 944, 'ground').setDisplaySize(640, 32).refreshBody();
+        const devicePixelRatio = window.devicePixelRatio || 1;
+        this.platforms.create(320, 944, 'ground').setScale(devicePixelRatio).refreshBody();
 
         // The player and its settings
         this.player = this.physics.add.sprite(100, 800, 'dude').setScale(1.5);
