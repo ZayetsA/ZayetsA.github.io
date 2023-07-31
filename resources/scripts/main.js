@@ -7,7 +7,8 @@ class BackgroundScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('bg', 'resources/assets/bigsky.png');
+        this.load.image('bg', 'resources/assets/bg.jpg');
+        this.load.image('fg', 'resources/assets/bigsky.png');
         this.load.image('clouds', 'resources/assets/clouds.png');
         this.load.image('ground', 'resources/assets/platform.png');
         this.load.image('coin', 'resources/assets/coin.png');
@@ -16,13 +17,16 @@ class BackgroundScene extends Phaser.Scene {
     }
 
     create() {
+        this.add.image(0, 0, 'bg').setOrigin(0, 0);
         this.scene.launch('GameScene');
         this.gameScene = this.scene.get('GameScene');
     }
 
     updateCamera() {
+        const width = this.scale.gameSize.width;
+        const height = this.scale.gameSize.height;
         const camera = this.cameras.main;
-        camera.centerOn(1400 / 2, (1200 / 2) + 120);
+        camera.centerOn(width / 2, (height / 2));
     }
 }
 
@@ -55,7 +59,7 @@ class GameScene extends Phaser.Scene {
 
         this.input.addPointer(2);
 
-        this.add.image(0, 0, 'bg').setOrigin(0, 0);
+        this.add.image(0, 0, 'fg').setOrigin(0, 0);
 
 
         this.parent = new Phaser.Structs.Size(width, height);
