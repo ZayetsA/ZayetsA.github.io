@@ -349,7 +349,9 @@ class GameScene extends Phaser.Scene {
         this.gameOverText.setText('Game Over\nScore: ' + this.score);
         this.gameOverText.setVisible(true)
         this.scoreText.setVisible(false)
-        CatcherGameInterface.onGameLoose(this.score);
+        if (typeof CatcherGameInterface !== "undefined") {
+            CatcherGameInterface.onGameLoose(this.score);
+        }
     }
 
     destroyCoin(coin, platform) {
