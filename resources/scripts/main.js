@@ -42,6 +42,8 @@ class GameScene extends Phaser.Scene {
     score = 0;
     gameOver = false;
     scoreText;
+    isClicking = false;
+    swipeDirection;
 
     constructor() {
         super('GameScene');
@@ -50,6 +52,8 @@ class GameScene extends Phaser.Scene {
     create() {
         const width = this.scale.gameSize.width;
         const height = this.scale.gameSize.height;
+
+        this.input.addPointer(2);
 
         this.add.image(0, 0, 'bg').setOrigin(0, 0);
 
@@ -252,29 +256,25 @@ class GameScene extends Phaser.Scene {
 
         const cursors = this.cursors;
         const player = this.player;
+        const pointer = this.input.pointer1;
 
-        if (cursors.left.isDown) {
-            player.setVelocityX(-160);
+        // touch
+        if (pointer.isDown) {
+            const halfScreenWidth = this.scale.width / 2;
 
-            player.anims.play('left', true);
-        }
-        else if (cursors.right.isDown) {
-            player.setVelocityX(160);
-
-            player.anims.play('right', true);
-        }
-        else {
+            // If touch is on the left half of the screen, move left
+            if (pointer.x < halfScreenWidth) {
+                player.setVelocityX(-160);
+                player.anims.play('left', true);
+            }
+            // If touch is on the right half of the screen, move right
+            else {
+                player.setVelocityX(160);
+                player.anims.play('right', true);
+            }
+        } else {
             player.setVelocityX(0);
-
             player.anims.play('turn');
-        }
-
-        if (cursors.up.isDown && player.body.touching.down) {
-            player.setVelocityY(-200);
-        }
-
-        if (cursors.down.isDown && !player.body.touching.down) {
-            player.setVelocityY(+200);
         }
     }
 
