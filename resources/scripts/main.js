@@ -253,23 +253,64 @@ class GameScene extends Phaser.Scene {
         if (this.gameOver) {
             return;
         }
+        this.registerKeyboardControls()
+        this.registerOnTouchControl()
+    }
 
+    registerKeyboardControls() {
         const cursors = this.cursors;
         const player = this.player;
         const pointer = this.input.pointer1;
 
-        // touch
+        if (pointer.isDown) {
+            return;
+        }
+
+        if (cursors.left.isDown) {
+            player.setVelocityX(-160);
+
+            player.anims.play('left', true);
+        }
+        else if (cursors.right.isDown) {
+            player.setVelocityX(160);
+
+            player.anims.play('right', true);
+        }
+        else {
+            player.setVelocityX(0);
+
+            player.anims.play('turn');
+        }
+
+        if (cursors.up.isDown && player.body.touching.down) {
+            player.setVelocityY(-200);
+        }
+
+        if (cursors.down.isDown && !player.body.touching.down) {
+            player.setVelocityY(+200);
+        }
+
+    }
+
+    registerOnTouchControl() {
+        const cursors = this.cursors;
+        const player = this.player;
+        const pointer = this.input.pointer1;
+        if (cursors.left.isDown || cursors.right.isDown || cursors.up.isDown || cursors.down.isDown) {
+            return;
+        }
+
         if (pointer.isDown) {
             const halfScreenWidth = this.scale.width / 2;
 
             // If touch is on the left half of the screen, move left
             if (pointer.x < halfScreenWidth) {
-                player.setVelocityX(-160);
+                player.setVelocityX(-200);
                 player.anims.play('left', true);
             }
             // If touch is on the right half of the screen, move right
             else {
-                player.setVelocityX(160);
+                player.setVelocityX(200);
                 player.anims.play('right', true);
             }
         } else {
@@ -277,6 +318,7 @@ class GameScene extends Phaser.Scene {
             player.anims.play('turn');
         }
     }
+
 
     collectCoin(player, coin) {
         coin.disableBody(true, true);
