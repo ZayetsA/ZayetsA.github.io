@@ -337,6 +337,9 @@ class GameScene extends Phaser.Scene {
         //  Add and update the score
         this.score += 10;
         this.scoreText.setText('Score: ' + this.score);
+        if (typeof CatcherGameInterface !== "undefined") {
+            CatcherGameInterface.onCoinCollected(this.score);
+        }
     }
 
     hitBomb(player, bomb) {
@@ -372,6 +375,11 @@ class GameScene extends Phaser.Scene {
             }
         }
     }
+
+    receiveConfig(data) {
+        console.log("Received data from Android: " + data);
+    }
+
 }
 
 // Aspect Ratio 16:9 - Portrait
