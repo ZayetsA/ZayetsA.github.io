@@ -350,7 +350,7 @@ class GameScene extends Phaser.Scene {
         this.gameOverText.setVisible(true)
         this.scoreText.setVisible(false)
         if (typeof CatcherGameInterface !== "undefined") {
-            CatcherGameInterface.onGameLoose(this.score);
+            CatcherGameInterface.onGameLoose();
         }
     }
 
