@@ -338,7 +338,7 @@ class GameScene extends Phaser.Scene {
         this.score += 10;
         this.scoreText.setText('Score: ' + this.score);
         if (typeof CatcherGameInterface !== "undefined") {
-            CatcherGameInterface.onCoinCollected(this.score);
+            CatcherGameInterface.onCoinCollected();
         }
     }
 
