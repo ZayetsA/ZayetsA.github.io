@@ -9,7 +9,6 @@ class BackgroundScene extends Phaser.Scene {
     preload() {
         this.load.image('bg', 'resources/assets/bg.jpg');
         this.load.image('fg', 'resources/assets/bigsky.png');
-        this.load.image('clouds', 'resources/assets/clouds.png');
         this.load.image('ground', 'resources/assets/platform.png');
         this.load.image('coin', 'resources/assets/coin.png');
         this.load.image('bomb', 'resources/assets/tnt.png');
@@ -46,6 +45,7 @@ class GameScene extends Phaser.Scene {
     score = 0;
     gameOver = false;
     scoreText;
+    gameOverText;
     isClicking = false;
     swipeDirection;
 
@@ -60,7 +60,6 @@ class GameScene extends Phaser.Scene {
         this.input.addPointer(2);
 
         this.add.image(0, 0, 'fg').setOrigin(0, 0);
-
 
         this.parent = new Phaser.Structs.Size(width, height);
         this.sizer = new Phaser.Structs.Size(this.GAME_WIDTH, this.GAME_HEIGHT, Phaser.Structs.Size.FIT, this.parent);
@@ -194,6 +193,15 @@ class GameScene extends Phaser.Scene {
 
         //  The score
         this.scoreText = this.add.text(32, 8, 'score: 0', { fontSize: '32px', fill: '#ffffff' });
+
+        this.gameOverText = this.add.text(this.sys.game.config.width / 2, this.sys.game.config.height / 2, '', {
+            fontSize: '48px',
+            fill: '#ff0000',
+            align: 'center'
+        });
+
+        this.gameOverText.setOrigin(0.5);
+        this.gameOverText.setVisible(false);
 
         //  Collide the player and the coins with the platforms
         this.physics.add.collider(this.player, this.platforms);
@@ -335,7 +343,12 @@ class GameScene extends Phaser.Scene {
         this.physics.pause();
         player.setTint(0xff0000);
         player.anims.play('turn');
+        this.coins.clear(true, true);
+        this.bombs.clear(true, true);
         this.gameOver = true;
+        this.gameOverText.setText('Game Over\nScore: ' + this.score);
+        this.gameOverText.setVisible(true)
+        this.scoreText.setVisible(false)
     }
 
     destroyCoin(coin, platform) {
